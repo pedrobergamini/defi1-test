@@ -21,8 +21,8 @@ contract DeFi1 {
     }
 
     function claimTokens() public {
-        bool found = false;
-        uint256 payout = 0;
+        bool found;
+        uint256 payout;
 
         for (uint256 ii = 0; ii < investors.length; ii++) {
             if (investors[ii] == msg.sender) {
@@ -32,19 +32,16 @@ contract DeFi1 {
             }
         }
         if (found == true) {
-            calculatePayout();
+            payout = calculatePayout();
         }
 
         token.transfer(msg.sender, payout);
     }
 
-    function calculatePayout() public returns (uint256) {
-        uint256 payout = 0;
-        uint256 blockReward = blockReward;
-        blockReward = block.number % 1000;
-        payout = initialAmount / investors.length;
-        payout = payout * blockReward;
-        blockReward--;
-        return payout;
+    function calculatePayout() public returns (uint256 _payout) {
+        uint256 _blockReward = block.number % 1000;
+        uint256 _payoutShare = initialAmount / investors.length;
+        _payout = _payoutShare * _blockReward;
+        // blockReward--;
     }
 }
