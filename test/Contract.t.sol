@@ -26,7 +26,7 @@ contract ContractTest is Test {
         defi.addInvestor(users[1]);
         uint256 _initialBalance = token.balanceOf(users[0]);
         vm.roll(block.number + _skipBlocks);
-        uint256 _expectedPayout = ((initialAmount / 2) * block.number) % 1000;
+        uint256 _expectedPayout = (initialAmount / 2) * (block.number % 1000);
         vm.prank(users[0]);
         defi.claimTokens();
         uint256 _finalBalance = token.balanceOf(users[0]);
@@ -34,7 +34,7 @@ contract ContractTest is Test {
     }
 
     function testClaim() public {
-        _testClaim(10);
+        _testClaim(1);
     }
 
     // function testClaimFuzz(uint256 _skipBlocks) public {

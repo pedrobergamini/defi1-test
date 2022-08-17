@@ -3,15 +3,16 @@
 pragma solidity ^0.8.13;
 
 import "./Token.sol";
+import "forge-std/console.sol";
 
 contract DeFi1 {
-    uint256 initialAmount = 0;
     address[] public investors;
-    uint256 blockReward = 0;
+    uint256 public initialAmount;
+    uint256 public blockReward;
     Token public token;
 
     constructor(uint256 _initialAmount, uint256 _blockReward) {
-        initialAmount = initialAmount;
+        initialAmount = _initialAmount;
         token = new Token(_initialAmount);
         blockReward = _blockReward;
     }
@@ -27,14 +28,12 @@ contract DeFi1 {
         for (uint256 ii = 0; ii < investors.length; ii++) {
             if (investors[ii] == msg.sender) {
                 found = true;
-            } else {
-                found = false;
+                break;
             }
         }
         if (found == true) {
             payout = calculatePayout();
         }
-
         token.transfer(msg.sender, payout);
     }
 
@@ -42,6 +41,6 @@ contract DeFi1 {
         uint256 _blockReward = block.number % 1000;
         uint256 _payoutShare = initialAmount / investors.length;
         _payout = _payoutShare * _blockReward;
-        // blockReward--;
+        blockReward--;
     }
 }
